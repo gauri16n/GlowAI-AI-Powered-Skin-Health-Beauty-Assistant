@@ -301,5 +301,11 @@ MIT License - see LICENSE file for details.
 **Made with ❤️ for Skin Health AI**
 
 [⭐ Star this project](https://github.com/yourusername/ai_dermal) | [🐛 Report Bug](https://github.com/yourusername/ai_dermal/issues)
+outputs:
+<img width="950" height="449" alt="Screenshot 2026-06-04 075549" src="https://github.com/user-attachments/assets/5a0f00b0-8f20-4598-a311-e0ad459c6766" />
+C:\Users\PADMA\OneDrive\Pictures\Screenshots\Screenshot 2026-06-04 075631.png
+C:\Users\PADMA\OneDrive\Pictures\Screenshots\Screenshot 2026-06-04 075654.png
+C:\Users\PADMA\OneDrive\Pictures\Screenshots\Screenshot 2026-06-04 075719.png
+
 
 </div>
