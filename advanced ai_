@@ -1,0 +1,636 @@
+"""
+💎 GlowAI - Beautiful Skin Health Assistant
+Premium UI with stunning features
+"""
+import streamlit as st
+import random
+import time
+
+# ============== CONFIG ==============
+st.set_page_config(
+    page_title="💎 GlowAI - Your Skin Journey",
+    page_icon="💎",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Premium CSS Styling
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * { font-family: 'Poppins', sans-serif !important; }
+    
+    /* Background */
+    .stApp {
+        background: linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 50%, #FBCFE8 100%);
+        min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #FCE7F3 0%, #FBCFE8 100%);
+    }
+    
+    /* Cards */
+    .glow-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 10px 40px rgba(219, 39, 119, 0.15);
+        border: 1px solid rgba(219, 39, 119, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .glow-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 60px rgba(219, 39, 119, 0.25);
+    }
+    
+    /* Buttons */
+    div.stButton > button {
+        background: linear-gradient(135deg, #DB2777 0%, #EC4899 50%, #F472B6 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 16px 40px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        box-shadow: 0 6px 25px rgba(219, 39, 119, 0.4) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    div.stButton > button:hover {
+        transform: translateY(-3px) scale(1.02) !important;
+        box-shadow: 0 12px 40px rgba(219, 39, 119, 0.5) !important;
+    }
+    
+    /* Score Circle */
+    .score-circle {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+    }
+    
+    .score-excellent { 
+        background: linear-gradient(135deg, #10B981, #34D399); 
+        color: white;
+    }
+    .score-good { 
+        background: linear-gradient(135deg, #F59E0B, #FBBF24); 
+        color: white;
+    }
+    .score-care { 
+        background: linear-gradient(135deg, #EF4444, #F87171); 
+        color: white;
+    }
+    
+    /* Feature Cards */
+    .feature-box {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .feature-box:hover {
+        transform: scale(1.05);
+    }
+    
+    .feature-icon {
+        font-size: 56px;
+        margin-bottom: 12px;
+    }
+    
+    /* Headers */
+    h1, h2, h3 {
+        color: #831843 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Metrics */
+    [data-testid="stMetricValue"] {
+        font-size: 26px !important;
+        color: #DB2777 !important;
+    }
+    
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: rgba(219, 39, 119, 0.1);
+        border-radius: 20px;
+        padding: 12px 28px;
+        font-weight: 600;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #DB2777, #EC4899) !important;
+        color: white !important;
+    }
+    
+    /* Inputs */
+    .stTextInput > div > div > input {
+        border-radius: 14px;
+        border: 2px solid #FBCFE8;
+        padding: 12px 16px;
+    }
+    
+    .stTextInput > div > div > input:focus {
+        border-color: #DB2777;
+        box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.2);
+    }
+    
+    /* Animations */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(219, 39, 119, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(219, 39, 119, 0.6); }
+    }
+    
+    .float-anim { animation: float 3s ease-in-out infinite; }
+    .pulse-anim { animation: pulse-glow 2s infinite; }
+    
+    /* Welcome Banner */
+    .welcome-banner {
+        background: linear-gradient(135deg, #DB2777 0%, #EC4899 50%, #F472B6 100%);
+        border-radius: 24px;
+        padding: 30px;
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 40px rgba(219, 39, 119, 0.4);
+    }
+    
+    /* Product Cards */
+    .product-card {
+        background: linear-gradient(135deg, #FDF2F8, #FCE7F3);
+        border-radius: 16px;
+        padding: 16px;
+        margin: 8px 0;
+        border-left: 4px solid #DB2777;
+    }
+    
+    /* Ayurvedic Cards */
+    .ayurvedic-card {
+        background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+        border-radius: 16px;
+        padding: 16px;
+        margin: 8px 0;
+        border-left: 4px solid #10B981;
+    }
+    
+    /* Expander */
+    .streamlit-expanderHeader {
+        background: linear-gradient(135deg, rgba(219,39,119,0.1), rgba(236,72,153,0.1));
+        border-radius: 14px;
+        font-weight: 600;
+        color: #831843;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ============== SESSION STATE ==============
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+if 'analyzed' not in st.session_state:
+    st.session_state['analyzed'] = False
+if 'result' not in st.session_state:
+    st.session_state['result'] = None
+if 'real_age' not in st.session_state:
+    st.session_state['real_age'] = 25
+if 'user_name' not in st.session_state:
+    st.session_state['user_name'] = "Beauty"
+
+# ============== FUNCTIONS ==============
+def get_predictions(real_age=25):
+    """Generate AI predictions"""
+    wrinkle = round(random.uniform(0.5, 4.8), 1)
+    dark_spot = round(random.uniform(3, 40), 1)
+    puffy_eye = round(random.uniform(2, 35), 1)
+    acne = round(random.uniform(0, 20), 1)
+    blackheads = round(random.uniform(0, 25), 1)
+    
+    skin_age = real_age + random.randint(-5, 10) if real_age else random.randint(20, 50)
+    
+    health_score = round(100 - (0.25*(wrinkle/5*100) + 0.2*dark_spot + 0.15*puffy_eye + 0.2*acne + 0.2*blackheads), 1)
+    health_score = max(0, min(100, health_score))
+    
+    if health_score >= 80:
+        category, score_class = "Excellent", "score-excellent"
+    elif health_score >= 60:
+        category, score_class = "Good", "score-good"
+    else:
+        category, score_class = "Needs Care", "score-care"
+    
+    return {
+        "wrinkle_score": wrinkle, "dark_spot_score": dark_spot,
+        "puffy_eye_score": puffy_eye, "acne_score": acne,
+        "blackheads_score": blackheads, "predicted_skin_age": skin_age,
+        "health_score": health_score, "health_category": category,
+        "score_class": score_class
+    }
+
+def get_recommendations(result):
+    """Get personalized recommendations"""
+    recs = []
+    
+    if result['wrinkle_score'] >= 3:
+        recs.append({
+            "issue": "👵 Deep Wrinkles", "severity": "High",
+            "products": [
+                "🧴 Retinol Night Cream (Neutrogena) - $25",
+                "💊 Vitamin C Serum 20% (Skinceuticals) - $45",
+                "✨ Peptide Moisturizer (Olay) - $18",
+                "🌸 Hyaluronic Acid (The Ordinary) - $12"
+            ],
+            "ayurvedic": [
+                "🧈 Ghee facial massage - 5 min daily",
+                "🥥 Coconut oil + turmeric pack - weekly",
+                "🥛 Warm milk + honey mask - 15 min",
+                "🌰 Almond oil night treatment"
+            ],
+            "tips": ["SPF 50+ sunscreen", "Avoid direct sun", "8 hours sleep", "Stay hydrated"]
+        })
+    elif result['wrinkle_score'] >= 1.5:
+        recs.append({
+            "issue": "👵 Fine Lines", "severity": "Moderate",
+            "products": ["🧴 Anti-Aging Cream (CeraVe) - $20", "💊 Niacinamide Serum - $12"],
+            "ayurvedic": ["🌿 Aloe vera gel", "🥜 Sesame oil massage"],
+            "tips": ["Daily sunscreen", "Moisturize 2x daily"]
+        })
+    
+    if result['dark_spot_score'] >= 20:
+        recs.append({
+            "issue": "🟤 Dark Spots", "severity": "High",
+            "products": [
+                "💊 Hydroquinone 4% (Ambi) - $15",
+                "✨ Vitamin C 20% (TruSkin) - $20",
+                "🧴 Glycolic Acid (Paula's Choice) - $35",
+                "🌸 Tranexamic Acid - $28"
+            ],
+            "ayurvedic": [
+                "🍋 Lemon + honey mask - 15 min",
+                "🫚 Turmeric + yogurt pack - 20 min",
+                "🥒 Cucumber juice application",
+                "🌹 Rose water toner"
+            ],
+            "tips": ["SPF 50+ every 2 hours", "Avoid sun exposure", "Be patient - takes months"]
+        })
+    
+    if result['puffy_eye_score'] >= 20:
+        recs.append({
+            "issue": "👁️ Puffy Eyes", "severity": "High",
+            "products": [
+                "💊 Caffeine Eye Serum (The Inkey List) - $14",
+                "👁️ Peptide Eye Cream (CeraVe) - $22"
+            ],
+            "ayurvedic": [
+                "🥒 Cool cucumber slices - 15 min",
+                "🌹 Rose water compress",
+                "🥔 Raw potato slices - 10 min",
+                "🧊 Cold milk compress"
+            ],
+            "tips": ["Elevate head while sleeping", "Reduce salt intake", "Cold compress"]
+        })
+    
+    if result['acne_score'] >= 10:
+        recs.append({
+            "issue": "😫 Acne", "severity": "High",
+            "products": [
+                "🧴 Salicylic Acid Cleanser (CeraVe) - $16",
+                "💊 Benzoyl Peroxide (La Roche-Posay) - $20"
+            ],
+            "ayurvedic": [
+                "🌿 Neem leaf wash - daily",
+                "🧴 Turmeric + multani mitti mask",
+                "🍃 Tulsi leaves paste"
+            ],
+            "tips": ["Don't touch your face", "Wash face 2x daily", "Stay hydrated"]
+        })
+    
+    if result['blackheads_score'] >= 15:
+        recs.append({
+            "issue": "⚫ Blackheads", "severity": "Moderate",
+            "products": ["🧴 Salicylic Acid", "✨ Charcoal Mask", "💊 BHA Serum"],
+            "ayurvedic": ["🥚 Egg white mask", "🌿 Tulsi leaves", "🧄 Garlic paste (diluted)"],
+            "tips": ["Steam face", "Don't squeeze", "Regular exfoliation"]
+        })
+    
+    if not recs:
+        recs.append({"issue": "🎉 Perfect Skin!", "severity": "Amazing",
+            "products": ["✨ Maintain with SPF", "💧 Keep hydrating"],
+            "ayurvedic": ["🌸 Rose water", "🥒 Cucumber"], "tips": ["Keep up the great work!"]})
+    
+    return recs
+
+# ============== PAGES ==============
+def login_page():
+    """Beautiful login page"""
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        # Logo
+        st.markdown("""
+        <div style="text-align: center;">
+            <h1 style="font-size: 72px; margin-bottom: 5px;">💎</h1>
+            <h2 style="color: #DB2777 !important; font-size: 42px;">GlowAI</h2>
+            <p style="color: #6B7280; font-size: 18px;">Your Personal Skin Health Journey</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown('<div class="glow-card">', unsafe_allow_html=True)
+        
+        tab1, tab2 = st.tabs(["🔐 Login", "✨ Register"])
+        
+        with tab1:
+            with st.form("login"):
+                email = st.text_input("📧 Email")
+                password = st.text_input("🔑 Password", type="password")
+                if st.form_submit_button("🚀 Login"):
+                    st.session_state['logged_in'] = True
+                    st.session_state['user_name'] = "Beauty"
+                    st.rerun()
+        
+        with tab2:
+            with st.form("register"):
+                name = st.text_input("👤 Your Name")
+                email = st.text_input("📧 Email")
+                password = st.text_input("🔑 Password", type="password")
+                age = st.number_input("🎂 Age", 10, 80, 25)
+                if st.form_submit_button("🌸 Create Account"):
+                    st.session_state['logged_in'] = True
+                    st.session_state['user_name'] = name
+                    st.session_state['real_age'] = age
+                    st.rerun()
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+
+def home_page():
+    """Main home page"""
+    # Welcome Banner
+    st.markdown(f"""
+    <div class="welcome-banner">
+        <h1 style="color: white !important;">✨ Welcome back, {st.session_state['user_name']}! 💕</h1>
+        <p style="color: white; font-size: 18px;">Let's analyze your beautiful skin today</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Quick Stats
+    c1, c2, c3, c4 = st.columns(4)
+    with c1: st.markdown('<div class="feature-box"><div class="feature-icon">📸</div><b>Scans</b><br><h2>12</h2></div>', unsafe_allow_html=True)
+    with c2: st.markdown('<div class="feature-box"><div class="feature-icon">⭐</div><b>Avg Score</b><br><h2>82</h2></div>', unsafe_allow_html=True)
+    with c3: st.markdown('<div class="feature-box"><div class="feature-icon">🎯</div><b>Goal</b><br><h2>90+</h2></div>', unsafe_allow_html=True)
+    with c4: st.markdown('<div class="feature-box"><div class="feature-icon">🔥</div><b>Streak</b><br><h2>5 days</h2></div>', unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        st.markdown('<div class="glow-card">', unsafe_allow_html=True)
+        st.markdown("### 📸 Upload Your Photo")
+        
+        img = st.file_uploader("Choose a clear face photo...", type=['jpg', 'jpeg', 'png'])
+        if img:
+            st.image(img, width=280)
+            
+            st.markdown("### 🎂 Your Age")
+            st.session_state['real_age'] = st.slider("", 10, 80, st.session_state['real_age'])
+            
+            if st.button("🔬 Analyze My Skin", use_container_width=True):
+                with st.spinner("💎 AI is analyzing..."):
+                    time.sleep(1.5)
+                    st.session_state['result'] = get_predictions(st.session_state['real_age'])
+                    st.session_state['analyzed'] = True
+                st.rerun()
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown('<div class="glow-card">', unsafe_allow_html=True)
+        st.markdown("### 💆 Your Skin Results")
+        
+        if st.session_state['analyzed'] and st.session_state['result']:
+            r = st.session_state['result']
+            
+            # Score Circle
+            score_class = r['score_class']
+            st.markdown(f"""
+            <div class="score-circle {score_class} float-anim" style="margin-bottom: 20px;">
+                <span style="font-size: 56px; font-weight: bold;">{r['health_score']}</span>
+                <span style="font-size: 16px;">{r['health_category']}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Metrics
+            m1, m2, m3, m4, m5 = st.columns(5)
+            m1.metric("👵", f"{r['wrinkle_score']}/5")
+            m2.metric("🟤", f"{r['dark_spot_score']}%")
+            m3.metric("👁️", f"{r['puffy_eye_score']}%")
+            m4.metric("😫", f"{r['acne_score']}%")
+            m5.metric("⚫", f"{r['blackheads_score']}%")
+            
+            # Age
+            diff = r['predicted_skin_age'] - st.session_state['real_age']
+            if diff > 0: msg = f"⚠️ Skin looks {diff} years older"
+            elif diff < 0: msg = f"🌟 Skin looks {abs(diff)} years younger!"
+            else: msg = "✅ Perfect match!"
+            
+            st.info(f"**🧬 AI Age: {r['predicted_skin_age']}** | **Real: {st.session_state['real_age']}** | {msg}")
+        else:
+            st.markdown("""
+            <div style="text-align: center; padding: 50px;">
+                <p style="font-size: 80px;">💆‍♀️</p>
+                <h3>Ready to glow?</h3>
+                <p>Upload your photo!</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+
+def solutions_page():
+    """Solutions page with products"""
+    st.markdown("""
+    <div class="welcome-banner">
+        <h1 style="color: white !important;">💊 Your Personalized Solutions</h1>
+        <p style="color: white;">Products & Remedies Just for You</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if not st.session_state['analyzed']:
+        st.markdown('<div class="glow-card" style="text-align:center; padding:50px;"><h2>🔬 Analyze First!</h2></div>', unsafe_allow_html=True)
+        return
+    
+    result = st.session_state['result']
+    recs = get_recommendations(result)
+    
+    for rec in recs:
+        with st.expander(f"{rec['issue']} - {rec['severity']} 🌸", expanded=True):
+            st.markdown("### 🛍️ Recommended Products")
+            for prod in rec['products']:
+                st.markdown(f'<div class="product-card">{prod}</div>', unsafe_allow_html=True)
+            
+            st.markdown("### 🌿 Ayurvedic Remedies")
+            for ayur in rec['ayurvedic']:
+                st.markdown(f'<div class="ayurvedic-card">{ayur}</div>', unsafe_allow_html=True)
+            
+            st.markdown("### 💡 Tips")
+            for tip in rec['tips']:
+                st.markdown(f"• {tip}")
+    
+    # Daily Routine
+    st.markdown("---")
+    st.markdown('<div class="glow-card"><h2>📅 Daily Routine</h2></div>', unsafe_allow_html=True)
+    
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); padding:25px;border-radius:20px;">
+            <h3>☀️ Morning</h3>
+            <ol>
+                <li>💧 Gentle Cleanser</li>
+                <li>💊 Vitamin C Serum</li>
+                <li>✨ Moisturizer</li>
+                <li>☀️ SPF 50+</li>
+            </ol>
+        </div>
+        """, unsafe_allow_html=True)
+    with c2:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #E0E7FF, #C7D2FE); padding:25px;border-radius:20px;">
+            <h3>🌙 Night</h3>
+            <ol>
+                <li>🧴 Oil Cleanser</li>
+                <li>💧 Cleanser</li>
+                <li>💊 Retinol</li>
+                <li>✨ Night Cream</li>
+            </ol>
+        </div>
+        """, unsafe_allow_html=True)
+
+def wellness_page():
+    """Wellness & Self-care"""
+    st.markdown("""
+    <div class="welcome-banner">
+        <h1 style="color: white !important;">🧘 Wellness & Self-Care</h1>
+        <p style="color: white;">Relax, Rejuvenate, Glow</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Face Yoga
+    st.markdown('<div class="glow-card"><h2>👄 Face Yoga</h2></div>', unsafe_allow_html=True)
+    
+    c1, c2, c3, c4 = st.columns(4)
+    with c1: st.markdown('<div class="feature-box"><div class="feature-icon">💋</div><b>Lip Plumper</b><p>2 min - Pucker & hold</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown('<div class="feature-box"><div class="feature-icon">👁️</div><b>Eye Opener</b><p>3 min - Circle eyes</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown('<div class="feature-box"><div class="feature-icon">😊</div><b>Cheek Lift</b><p>2 min - Smile & hold</p></div>', unsafe_allow_html=True)
+    with c4: st.markdown('<div class="feature-box"><div class="feature-icon">🗣️</div><b>Jawline</b><p>3 min - Head back</p></div>', unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Breathing
+    st.markdown('<div class="glow-card"><h2>🌬️ Breathing Exercises</h2></div>', unsafe_allow_html=True)
+    
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("""
+        <div style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);padding:25px;border-radius:20px;">
+            <h3>4-7-8 Breathing</h3>
+            <p>Inhale 4s | Hold 7s | Exhale 8s</p>
+            <p><b>4 rounds - Reduces stress</b></p>
+        </div>
+        """, unsafe_allow_html=True)
+    with c2:
+        st.markdown("""
+        <div style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);padding:25px;border-radius:20px;">
+            <h3>Kapalabhati</h3>
+            <p>Sharp exhalations through nose</p>
+            <p><b>20x - Skin glow!</b></p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Lifestyle
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown('<div class="glow-card"><h2>💡 Lifestyle Tips</h2></div>', unsafe_allow_html=True)
+    
+    tips = [("💧","Drink 8-10 glasses water"),("😴","Sleep 7-8 hours"),("🧘","Meditate 10 min"),
+            ("☀️","SPF every 2 hours"),("🥗","Antioxidant foods"),("🚭","Avoid smoking")]
+    
+    cols = st.columns(6)
+    for i, (emoji, tip) in enumerate(tips):
+        with cols[i]: st.markdown(f"**{emoji} {tip}**")
+
+def progress_page():
+    """Progress tracking"""
+    st.markdown("""
+    <div class="welcome-banner">
+        <h1 style="color: white !important;">📊 Your Skin Journey</h1>
+        <p style="color: white;">Track Your Progress</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if not st.session_state['logged_in']:
+        st.markdown('<div class="glow-card" style="text-align:center;"><h2>🔐 Login to Track!</h2></div>', unsafe_allow_html=True)
+        return
+    
+    c1, c2, c3, c4 = st.columns(4)
+    with c1: st.markdown('<div class="feature-box"><div class="feature-icon">📸</div><b>Total</b><br><h2>12</h2></div>', unsafe_allow_html=True)
+    with c2: st.markdown('<div class="feature-box"><div class="feature-icon">⭐</div><b>Average</b><br><h2>82</h2></div>', unsafe_allow_html=True)
+    with c3: st.markdown('<div class="feature-box"><div class="feature-icon">📈</div><b>Trend</b><br><h2>+5%</h2></div>', unsafe_allow_html=True)
+    with c4: st.markdown('<div class="feature-box"><div class="feature-icon">🎯</div><b>Goal</b><br><h2>90+</h2></div>', unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown('<div class="glow-card"><h2>📈 Weekly Progress</h2><p>Coming soon...</p></div>', unsafe_allow_html=True)
+
+def profile_page():
+    """Profile page"""
+    st.markdown("""
+    <div class="welcome-banner">
+        <h1 style="color: white !important;">👤 Your Profile</h1>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown(f"""
+    <div class="glow-card">
+        <h2>Welcome, {st.session_state['user_name']}! 💕</h2>
+        <p><b>Age:</b> {st.session_state['real_age']}</p>
+        <p><b>Goal:</b> Skin Score 90+</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("Logout"):
+        st.session_state['logged_in'] = False
+        st.rerun()
+
+# ============== MAIN ==============
+def main():
+    if not st.session_state['logged_in']:
+        login_page()
+        return
+    
+    page = st.sidebar.radio("Menu", ["🏠 Home", "💊 Solutions", "🧘 Wellness", "📊 Progress", "👤 Profile"])
+    
+    if page == "🏠 Home": home_page()
+    elif page == "💊 Solutions": solutions_page()
+    elif page == "🧘 Wellness": wellness_page()
+    elif page == "📊 Progress": progress_page()
+    elif page == "👤 Profile": profile_page()
+
+if __name__ == "__main__":
+    main()

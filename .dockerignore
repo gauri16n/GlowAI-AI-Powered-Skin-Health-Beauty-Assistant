@@ -1,0 +1,24 @@
+# Ignore Docker build artifacts
+*.pyc
+__pycache__
+*.log
+.git
+.gitignore
+.env
+.venv
+venv/
+
+# Data and models
+data/
+models/
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
