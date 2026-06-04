@@ -303,9 +303,11 @@ MIT License - see LICENSE file for details.
 [⭐ Star this project](https://github.com/yourusername/ai_dermal) | [🐛 Report Bug](https://github.com/yourusername/ai_dermal/issues)
 outputs:
 <img width="950" height="449" alt="Screenshot 2026-06-04 075549" src="https://github.com/user-attachments/assets/5a0f00b0-8f20-4598-a311-e0ad459c6766" />
-C:\Users\PADMA\OneDrive\Pictures\Screenshots\Screenshot 2026-06-04 075631.png
-C:\Users\PADMA\OneDrive\Pictures\Screenshots\Screenshot 2026-06-04 075654.png
-C:\Users\PADMA\OneDrive\Pictures\Screenshots\Screenshot 2026-06-04 075719.png
+<img width="948" height="437" alt="Screenshot 2026-06-04 075631" src="https://github.com/user-attachments/assets/2a1b397c-a279-474d-be46-2c8d68d358f2" />
+<img width="941" height="430" alt="Screenshot 2026-06-04 075654" src="https://github.com/user-attachments/assets/70feadce-c82c-4b6d-a253-e6b892815b41" />
+<img width="950" height="433" alt="Screenshot 2026-06-04 075719" src="https://github.com/user-attachments/assets/a4dc095a-45fd-4004-8992-9e319df42d26" />
+
+
 
 
 </div>
